@@ -83,8 +83,10 @@ def main(opt):
         './checkpoint/DSFNet_s2.pth',
         './checkpoint/DSFNet_s3.pth',
     ]
-    num_experts_target = 15
-    replicas_per_pth = 4
+    num_experts_target = 6
+    replicas_per_pth = 1
+    # 在这里定义你想要的 top_k 值
+    TOP_K_VALUE = 2 # <<<<<<<<<<<<<<<<<<<< 在这里修改激活的专家数量
 
     expert_list = torch.nn.ModuleList()
     for path in base_pretrained_paths:
@@ -98,8 +100,7 @@ def main(opt):
             perturbed_expert = perturb_model_weights(perturbed_expert)
             expert_list.append(perturbed_expert)
 
-    # 在这里定义你想要的 top_k 值
-    TOP_K_VALUE = 4 # <<<<<<<<<<<<<<<<<<<< 在这里修改激活的专家数量
+
 
     model = Gumbel_MoE_DSFNet(
         heads=head,
